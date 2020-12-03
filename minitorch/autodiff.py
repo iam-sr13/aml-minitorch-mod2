@@ -179,7 +179,7 @@ class FunctionBase:
 
         """
         bwd = wrap_tuple(cls.backward(ctx, d_output))
-        return [VariableWithDeriv(v, b) for v, b in zip(inputs, bwd)if isinstance(v, Variable)]
+        return [VariableWithDeriv(v, b) for v, b in zip(inputs, bwd) if not is_constant(v)]
 
 
 def is_leaf(val):
