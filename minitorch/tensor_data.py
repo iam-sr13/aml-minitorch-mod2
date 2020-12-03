@@ -51,6 +51,13 @@ def count(position, shape, out_index):
 
     """
     # Done TODO: Implement for Task 2
+    cur_pos = position + 0
+    for i in range(len(shape) - 1, -1, -1):
+        sh = shape[i]
+        out_index[i] = int(cur_pos % sh)
+        cur_pos = cur_pos // sh
+
+    """
     strides = strides_from_shape(shape)
     strides_with_shape = []
     for _, i in enumerate(strides):
@@ -67,6 +74,7 @@ def count(position, shape, out_index):
 
     for i in range(0, len(idx_dict)):
         out_index[i] = idx_dict[i]
+    """
 
 
 def broadcast_index(big_index, big_shape, shape, out_index):
@@ -233,6 +241,15 @@ class TensorData:
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
         # TODO: Implement for Task 2.1.
+        shape = tuple()
+        strides = tuple()
+        for i, p in enumerate(order):
+            shape = shape + (self.shape[p],)
+            strides = strides + (self._strides[p],)
+
+        newtd = TensorData(self._storage, shape=shape, strides=strides)
+        return newtd
+        """
         new_shape = []
         new_stride = []
         for i in order:
@@ -241,6 +258,7 @@ class TensorData:
 
         new_td = TensorData(self._storage, tuple(new_shape), tuple(new_stride))
         return new_td
+        """
 
     def to_string(self):
         s = ""

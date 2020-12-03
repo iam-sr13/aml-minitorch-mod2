@@ -24,8 +24,13 @@ class Network(minitorch.Module):
         self.layer3 = Linear(HIDDEN, 1)
 
     def forward(self, x):
-        # TODO: Implement for Task 2.5.
-        raise NotImplementedError('Need to implement for Task 2.5')
+        x = self.layer1(x)
+        x = x.relu()
+        x = self.layer2(x)
+        x = x.relu()
+        x = self.layer3(x)
+        x = x.sigmoid()
+        return x
 
 
 class Linear(minitorch.Module):
@@ -36,8 +41,16 @@ class Linear(minitorch.Module):
         self.out_size = out_size
 
     def forward(self, x):
-        # TODO: Implement for Task 2.5.
-        raise NotImplementedError('Need to implement for Task 2.5')
+        weights = self.weights.value
+        mul = x * weights
+
+        # bias::(10,)->(1,10)
+        bias = self.bias.value
+        bias = bias.view(1, bias.shape[0])
+
+        # (N,10) + (1,10) ->(N,10)
+        y = mul + bias
+        return y
 
 
 model = Network()
